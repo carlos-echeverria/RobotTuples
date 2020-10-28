@@ -6,10 +6,10 @@ from random import choice
 from random import seed
 from collections import Counter
 
-n = 9 # number of robots
+n = 18 # number of robots
 k = 3  # tuple size
-robots = list(range(1,n+1)) 
-groupSize = 12
+robots = list(range(1,n+1))
+groupSize = 24
 seed(2)
 
 
