@@ -47,35 +47,47 @@ def addElementToGroup(totalSets,Group,discarded):
         addElementToGroup(discarded, Group, discarded=[])
 
 
+def generateGroup(groupSize, totalSets, totalCombis):
+    iter=0
+    group=[]
+    discarded=[]
+    while len(group)<groupSize and iter<totalCombis:
+        iter=iter+1
+        #print("Total Sets Remaining before iteration: {}".format(len(totalSets)))
+        print("Iteration: {}".format(iter))
+        print("Number of Tuples remaining before adding a new element: {}".format(len(totalSets)))
+        print("The Group Before adding a new tuple is:\n {}.".format(group))
+        addElementToGroup(totalSets, group, discarded)
+        print("The Group After adding a new tuple is:\n {}.".format(group))
+        groupList = [x for tup in group for x in tup]
+        robotCounter = Counter(groupList)
+        print("Group Object {}.".format(robotCounter))
+        print("Number of Tuples Remaining after iteration: {}.".format(len(totalSets)))
+        #print("Sets Remaining:\n {}".format(totalSets))
+        print("Number of Tuples Discarded so far: {}.".format(len(discarded)))
+        #print("Sets Discarded:\n {}.".format(discarded))
+        print("\n")
+        if (len(group)==groupSize):
+            print("GROUP WAS CREATED WITH THE DESIRED CONSTRAINTS.\n")
+            totalSets=totalSets+discarded
+            return(group)
+        if (iter==totalCombis):
+            print("\nERROR: A GROUP COULD NOT BE BUILT WITH THE GIVEN SETS.\n")
+            return(group)
+
+
 totalSets = possibleSets(robots,k)
 totalCombis = len(totalSets)
 
-
 print("\nWith {} robots, there are {} posible combinations of {}-tuples.\n".format(n, totalCombis, k))
 
+# Groups = []
+# outit = 0
+# while outit<3:
+#     outit = outit + 1
+#     Groups.append(generateGroup(groupSize, totalSets, totalCombis))
+#Groups[2] = generateGroup(groupSize, totalSets, totalCombis)
 
-iter=0#
-Group1=[]
-discarded=[]
-while len(Group1)<groupSize and iter<totalCombis:
-    iter=iter+1
-    #print("Total Sets Remaining before iteration: {}".format(len(totalSets)))
-    print("Iteration: {}".format(iter))
-    print("Number of Tuples remaining before adding a new element: {}".format(len(totalSets)))
-    print("The Group Before adding a new tuple is:\n {}.".format(Group1))
-    addElementToGroup(totalSets, Group1, discarded)
-    print("The Group After adding a new tuple is:\n {}.".format(Group1))
-    Group1L = [x for tup in Group1 for x in tup]
-    cntT = Counter(Group1L)
-    print("Group Object {}.".format(cntT))
-    print("Number of Tuples Remaining after iteration: {}.".format(len(totalSets)))
-    #print("Sets Remaining:\n {}".format(totalSets))
-    print("Number of Tuples Discarded so far: {}.".format(len(discarded)))
-    #print("Sets Discarded:\n {}.".format(discarded))
-    print("\n")
-    if (len(Group1)==groupSize):
-        print("GROUP WAS CREATED WITH THE DESIRED CONSTRAINTS.\n")
-        totalSets=totalSets+discarded
-    if (iter==totalCombis):
-        print("\nERROR: A GROUP COULD NOT BE BUILT WITH THE GIVEN SETS.\n")
-        quit()
+
+
+# print(Groups)
