@@ -10,7 +10,7 @@ n = 18 # number of robots
 k = 3  # tuple size
 robots = list(range(1,n+1))
 groupSize = 24
-seed(2)
+seed(6)
 
 
 def possibleSets(robots,k):
