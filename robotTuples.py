@@ -61,16 +61,16 @@ while len(Group1)<groupSize and iter<totalCombis:
     iter=iter+1
     #print("Total Sets Remaining before iteration: {}".format(len(totalSets)))
     print("Iteration: {}".format(iter))
-    print("Number of Sets Remaining before adding a new element: {}".format(len(totalSets)))
-    print("The group before adding a new element is:\n {}.".format(Group1))
+    print("Number of Tuples remaining before adding a new element: {}".format(len(totalSets)))
+    print("The Group Before adding a new tuple is:\n {}.".format(Group1))
     addElementToGroup(totalSets, Group1, discarded)
-    print("The group after adding a new element is:\n {}.".format(Group1))
+    print("The Group After adding a new tuple is:\n {}.".format(Group1))
     Group1L = [x for tup in Group1 for x in tup]
     cntT = Counter(Group1L)
-    print("Group element {}.".format(cntT))
-    print("Number of Sets Remaining after iteration: {}.".format(len(totalSets)))
+    print("Group Object {}.".format(cntT))
+    print("Number of Tuples Remaining after iteration: {}.".format(len(totalSets)))
     #print("Sets Remaining:\n {}".format(totalSets))
-    print("Number of Sets Discarded so far: {}.".format(len(discarded)))
+    print("Number of Tuples Discarded so far: {}.".format(len(discarded)))
     #print("Sets Discarded:\n {}.".format(discarded))
     print("\n")
     if (len(Group1)==groupSize):
