@@ -10,7 +10,7 @@ n = 18 # number of robots
 k = 3  # tuple size
 robots = list(range(1,n+1))
 groupSize = 24
-seed(6)
+#seed(6)
 
 
 def possibleSets(robots,k):
@@ -20,6 +20,7 @@ def possibleSets(robots,k):
 
 def addElementToGroup(totalSets,Group,discarded):
     # add element if constraints are met
+    seed(6)
     try:
         rElement = choice(totalSets)
         #rElement = totalSets[0]
@@ -69,7 +70,7 @@ def generateGroup(groupSize, totalSets, totalCombis):
         print("\n")
         if (len(group)==groupSize):
             print("GROUP WAS CREATED WITH THE DESIRED CONSTRAINTS.\n")
-            totalSets=totalSets+discarded
+            #totalSets=totalSets+discarded
             return(group)
         if (iter==totalCombis):
             print("\nERROR: A GROUP COULD NOT BE BUILT WITH THE GIVEN SETS.\n")
@@ -81,13 +82,11 @@ totalCombis = len(totalSets)
 
 print("\nWith {} robots, there are {} posible combinations of {}-tuples.\n".format(n, totalCombis, k))
 
-# Groups = []
-# outit = 0
-# while outit<3:
-#     outit = outit + 1
-#     Groups.append(generateGroup(groupSize, totalSets, totalCombis))
-#Groups[2] = generateGroup(groupSize, totalSets, totalCombis)
+Groups = []
+outit = 0
+while outit<3:
+     outit = outit + 1
+     Groups.append(generateGroup(groupSize, totalSets, totalCombis))
 
 
-
-# print(Groups)
+print(Groups)
