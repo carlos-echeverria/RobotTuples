@@ -33,16 +33,12 @@ while iter<nGroups:
     totalTuples=rT.possibleTuples(robots,k)
     currentGroup=rT.generateGroup(totalTuples, groupSize)
     groupsDictionary.update({iter:currentGroup})
-    # groupsDictionary.update({'group2':Group2})
-    # print(f"DOES THE FOUND SOLUTION FULFILL THE CONSTRAINTS?: {rT.isGroupComplete(currentGroup, n, 4)}")
 
-# print(f"\nThe dictionary with all the groups is:\n {groupsDictionary}")
-# print(f"the first group is:  {sorted(groupsDictionary[0])}")
 
 # extracts every robot tuple from dictionary and makes a list
 total = groupsDictionary.values()
 tupleList = [tuple for group in total for tuple in group]
-# print(f"\nThe total list of tuples is: {tupleList}. It has {len(tupleList)} elements.")
+
 
 # Counts the number of times each tuple appears in the total list:
 count = Counter(tupleList)
