@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-# import sys
 from itertools import combinations
 from collections import Counter, defaultdict
 from random import choice, choices, seed, sample
@@ -9,7 +8,6 @@ from random import choice, choices, seed, sample
 def possibleTuples(robots,k):
     # Return a list of all tuples of length k form a list of robots of size n.
     return list(combinations(robots,k))
-    #return [frozenset(x) for x in combinations(robots,k)]
 
 
 def addTupleToGroup(totalTuples,group,discarded):
@@ -19,7 +17,6 @@ def addTupleToGroup(totalTuples,group,discarded):
     # Warning: function assumes 3-tuples and a totla of 18 robots.
     try:
         randTuple = choice(totalTuples)
-        #randTuple = totalSets[0]
 
         group.append(randTuple)
         groupL = [robot for tupl in group for robot in tupl]
@@ -38,8 +35,6 @@ def addTupleToGroup(totalTuples,group,discarded):
 
     except IndexError:
         print("No more tuples in first run of list with all possible combinations...")
-        #addTupleToGroup(discarded, Group, discarded=[])
-        #return
 
 
 def generateGroup(totalTuples, groupSize):
@@ -68,7 +63,6 @@ def generateGroup(totalTuples, groupSize):
             group=[]
             discarded=[]
             convergenceFlag=0
-            #return(group)
 
 
 def countElementsInGroup(group):
