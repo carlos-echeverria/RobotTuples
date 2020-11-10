@@ -20,7 +20,6 @@ def addTupleToGroup(totalTuples,group,discarded):
     try:
         randTuple = choice(totalTuples)
         #randTuple = totalSets[0]
-        ##print("We choose a random element from the possible 3-tuples: {}.".format(randTuple))
 
         group.append(randTuple)
         groupL = [robot for tupl in group for robot in tupl]
@@ -54,20 +53,10 @@ def generateGroup(totalTuples, groupSize):
     totalCombis=len(totalTuples)
     while len(group)<groupSize and iter<totalCombis and convergenceFlag!=1:
         iter=iter+1
-        #print("Total Sets Remaining before iteration: {}".format(len(totalSets)))
-        ##print("Iteration: {}".format(iter))
-        ##print("Number of Tuples remaining before adding a new element: {}".format(len(totalSets)))
-        ##print("The Group Before adding a new tuple is:\n {}.".format(group))
         addTupleToGroup(totalTuples, group, discarded)
-        ##print("The Group After adding a new tuple is:\n {}.".format(group))
         groupList = [robot for tuple in group for robot in tuple]
         robotCounter = Counter(groupList)
-        ##print("Group Object {}.".format(robotCounter))
-        ##print("Number of Tuples Remaining after iteration: {}.".format(len(totalSets)))
-        #print("Sets Remaining:\n {}".format(totalSets))
-        ##print("Number of Tuples Discarded so far: {}.".format(len(discarded)))
-        #print("Sets Discarded:\n {}.".format(discarded))
-        ##print("\n")
+
         if (len(group)==groupSize):
             print(f"THE FOLLOWING GROUP WAS CREATED WITH THE DESIRED CONSTRAINTS:\n {sorted(group)}.")
             convergenceFlag=1
@@ -112,9 +101,9 @@ def pairKey(pair):
 def buildPairsDict(availableTuples):
     # Given the list of all available tuples, the function creates a dictionary
     # of the form:
-    #            key = the set of elements in the two tuples
-    #          value = the list of tuple pairs that correspond to the key
-    #
+    #   key = the set of elements in the two tuples
+    # value = the list of tuple pairs that correspond to the key
+
     tuplesPairs = defaultdict(list)
     for pair in combinations(availableTuples, 2):
         key = pairKey(pair)
@@ -140,7 +129,6 @@ def shufflePairOfElements(currentGroup, allTuples):
     availableMatchingTuples = availableTuplesPairs[pairKey(replaceTuples)]
     if len(availableMatchingTuples) == 0:
         # No tuples available: do nothing
-        ###print('No Shuffling was performed in this step')
         return currentGroup
 
     newTuples = choice(availableMatchingTuples)
