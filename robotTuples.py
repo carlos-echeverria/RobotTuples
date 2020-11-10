@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# Library of functions to find tuples from a list of elements (robots) intended
+# for preparing a Best-Worst scaling comparison.
+
 from itertools import combinations
 from collections import Counter, defaultdict
 from random import choice, choices, seed, sample
@@ -27,14 +30,14 @@ def addTupleToGroup(totalTuples,group,discarded):
                 idx = totalTuples.index(randTuple)
                 totalTuples.pop(idx)
             except IndexError:
-                print("Index error..?")
+                print("Index error... No more tuples in group.")
         else:
             discarded.append(group.pop())
             idx = totalTuples.index(randTuple)
             totalTuples.pop(idx)
 
     except IndexError:
-        print("No more tuples in first run of list with all possible combinations...")
+        print("No more tuples left in list of all possible tuples after first run.")
 
 
 def generateGroup(totalTuples, groupSize):
@@ -53,11 +56,13 @@ def generateGroup(totalTuples, groupSize):
         robotCounter = Counter(groupList)
 
         if (len(group)==groupSize):
-            print(f"THE FOLLOWING GROUP WAS CREATED WITH THE DESIRED CONSTRAINTS:\n {sorted(group)}.")
+            print(f"\nThe following group was generated fulfilling the desired constraints:\n {sorted(group)}.")
+            # print(f"\nTHE FOLLOWING GROUP WAS CREATED WITH THE DESIRED CONSTRAINTS:\n {group}.")
             # convergenceFlag=1
             return group
+
         if (iter==totalCombis):
-            print("\nERROR: A GROUP COULD NOT BE BUILT WITH THE GIVEN SETS...TRYING AGAIN.\n")
+            # print("\nERROR: A GROUP COULD NOT BE BUILT WITH THE GIVEN SETS...TRYING AGAIN.\n")
             totalTuples=totalTuples+group+discarded
             iter=0
             group=[]
