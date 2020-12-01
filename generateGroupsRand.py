@@ -6,8 +6,9 @@
 
 import robotTuples as rT
 import matplotlib.pyplot as plt
-from random import seed
 from collections import Counter
+from random import seed
+from datetime import datetime
 
 n = 18 # total number of robots
 k = 3  # number of robots per tuple
@@ -37,7 +38,44 @@ while iter<nGroups:
     # print(f"DOES THE FOUND SOLUTION FULFILL THE CONSTRAINTS?: {rT.isGroupComplete(currentGroup, n, 4)}")
 
 # print(f"\nThe dictionary with all the groups is:\n {groupsDictionary}")
-# print(f"the first group is:  {sorted(groupsDictionary[0])}")
+# print(f"the first group is:  {sorted(groupsDictionary[1])}")
+
+
+# gets the current date and time to generate a unique filename for storing results:
+now = datetime.now()
+date1 = now.strftime("%Y:%m:%d")
+date2 = now.strftime("%Y/%m/%d")
+time = now.strftime("%H:%M:%S")
+
+# prints resulting groups to unique file with human readable format:
+with open(f"Results-{date1}-{time}.txt", 'w+') as file:
+    file.write(f"The following groups were created on {date2} at {time}.\n")
+    for i in range(1,nGroups+1):
+        file.write(f"\n Group {i}: {groupsDictionary[i]}\n")
+
+# prints resulting groups to another unique file for javascript experiment:
+with open(f"Results-{date1}-{time}_js.txt", 'w+') as file:
+    for i in range(1,nGroups+1):
+        file.write(f"\n---------Group{i}---------\n")
+        for tuple in groupsDictionary[i]:
+            idx = groupsDictionary[i].index(tuple)
+            file.write(f"var set{idx+1} = {list(tuple)};\n")
+
+# prints resulting groups to another unique file for javascript experiment:
+# with is like your try .. finally block in this case
+with open('experiment.html', 'r') as file:
+    # read a list of lines into data
+    data = file.readlines()
+
+
+for i in range(1,nGroups+1):
+    with open(f"experiment_{i}.html", 'w+') as file:
+        for tuple in groupsDictionary[i]:
+            idx = groupsDictionary[i].index(tuple)
+            # now change the 2nd line, note that you have to add a newline
+            data[12+idx] = f"    var Set{idx+1} = {list(tuple)};\n"
+            # and write everything back
+            file.writelines( data )
 
 # extracts every robot tuple from dictionary and makes a list
 total = groupsDictionary.values()
@@ -64,5 +102,5 @@ plt.bar(x,y,width=0.6)
 plt.xticks([x+0.5 for x in x],xlabels, rotation = 'vertical')
 
 #show plot
-input("Press Enter to show plot...")
-plt.show()
+# input("Press Enter to show plot...")
+# plt.show()
