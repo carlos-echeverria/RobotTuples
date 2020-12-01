@@ -22,8 +22,8 @@ def addTupleToGroup(totalTuples,group,discarded):
         randTuple = choice(totalTuples)
 
         group.append(randTuple)
-        groupL = [robot for tupl in group for robot in tupl]
-        cnt = Counter(groupL)
+        groupList = [robot for tupl in group for robot in tupl]
+        cnt = Counter(groupList)
         robotsInGroup = list(cnt.keys())
         if (cnt[1]<=4 and cnt[2]<=4 and cnt[3]<=4 and cnt[4]<=4 and cnt[5]<=4 and cnt[6]<=4 and cnt[7]<=4 and cnt[8]<=4 and cnt[9]<=4 and cnt[10]<=4 and cnt[11]<=4 and cnt[12]<=4 and cnt[13]<=4 and cnt[14]<=4 and cnt[15]<=4 and cnt[16]<=4 and cnt[17]<=4 and cnt[18]<=4):
             try:
@@ -56,8 +56,7 @@ def generateGroup(totalTuples, groupSize):
         robotCounter = Counter(groupList)
 
         if (len(group)==groupSize):
-            print(f"\nThe following group was generated fulfilling the desired constraints:\n {sorted(group)}.")
-            # print(f"\nTHE FOLLOWING GROUP WAS CREATED WITH THE DESIRED CONSTRAINTS:\n {group}.")
+            print(f"\nThe following group was generated fulfilling the desired constraints:\n {sorted(group)}.") # sorted?
             # convergenceFlag=1
             return group
 
