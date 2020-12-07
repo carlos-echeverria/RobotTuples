@@ -69,6 +69,33 @@ def generateGroup(totalTuples, groupSize):
             # convergenceFlag=0
 
 
+def generateGroupInSilence(totalTuples, groupSize):
+    # Given a list of robot tuples and a group size, the function generates
+    # a group of tuples of the given size which fulfill the desired constraints,
+    # i.e., each robot appears 4 times in the group.
+    iter=0
+    group=[]
+    discarded=[]
+    # convergenceFlag=0
+    totalCombis=len(totalTuples)
+    while len(group)<groupSize or iter<totalCombis: #and convergenceFlag!=1:
+        iter=iter+1
+        addTupleToGroup(totalTuples, group, discarded)
+        groupList = [robot for tuple in group for robot in tuple]
+        robotCounter = Counter(groupList)
+
+        if (len(group)==groupSize):
+            return group
+
+        if (iter==totalCombis):
+            # print("\nERROR: A GROUP COULD NOT BE BUILT WITH THE GIVEN SETS...TRYING AGAIN.\n")
+            totalTuples=totalTuples+group+discarded
+            iter=0
+            group=[]
+            discarded=[]
+            # convergenceFlag=0
+
+
 def countElementsInGroup(group):
     # Given a group of robots (list of tuples), the function counts the number
     # of times each robot appears in the group.
