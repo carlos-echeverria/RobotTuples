@@ -31,11 +31,13 @@ groupsDictionary = {}
 iter=1
 countr=0
 while iter<nGroups:
-    # iter=iter+1
+    # creates all possible tuples defined by the parameters from above:
     totalTuples=rT.possibleTuples(robots,k)
+    # generates a group which fulfills the constraints:
     currentGroup=rT.generateGroupInSilence(totalTuples, groupSize)
+    # add the created group to a dictionary:
     groupsDictionary.update({iter:currentGroup})
-    # extracts every robot tuple from dictionary and makes a list
+    # extracts every robot tuple from dictionary then makes a list:
     total = groupsDictionary.values()
     tupleList = [tuple for group in total for tuple in group]
     # print(f"\nThe total list of tuples is: {tupleList}. It has {len(tupleList)} elements.")
@@ -51,8 +53,34 @@ while iter<nGroups:
         countr = old_countr
 
 
+## Saving output of experiment
+
+# gets the current date and time to generate a unique filename for storing results:
+now = datetime.now()
+date1 = now.strftime("%Y:%m:%d")
+date2 = now.strftime("%Y/%m/%d")
+time = now.strftime("%H:%M:%S")
+
+
+# prints resulting groups to unique file with human readable format:
+with open(f"Results-{date1}-{time}.txt", 'w+') as file:
+    file.write(f"The following groups were created on {date2} at {time}.\n")
+    for i in range(1,nGroups+1):
+        file.write(f"\n Group {i}: {groupsDictionary[i]}\n")
+
+
+# prints resulting groups to another unique file for javascript experiment:
+with open(f"Results-{date1}-{time}_js.txt", 'w+') as file:
+    for i in range(1,nGroups+1):
+        file.write(f"\n---------Group{i}---------\n")
+        for tuple in groupsDictionary[i]:
+            idx = groupsDictionary[i].index(tuple)
+            file.write(f"var set{idx+1} = {list(tuple)};\n")
+
+
 # Saving output of experiment
 print(f"\nDid this work?.\n")
+
 # 0
 # 24
 # 48
@@ -87,49 +115,3 @@ print(f"\nDid this work?.\n")
 # 744
 # 768
 # 792
-
-# Saving output of experiment
-outputFlag = input(f"How do you want to save the results?\n 1) Save a file with all groups written in human readable format.\n 2) Save a file with all groups written in javascript formatted language.\n 3) Embed each group in a separate html experiment file ({nGroups} files will be created).\n\n Choice = ")
-outputFlag = int(outputFlag)
-# gets the current date and time to generate a unique filename for storing results:
-now = datetime.now()
-date1 = now.strftime("%Y:%m:%d")
-date2 = now.strftime("%Y/%m/%d")
-time = now.strftime("%H:%M:%S")
-
-if outputFlag==1:
-    # prints resulting groups to unique file with human readable format:
-    with open(f"Results-{date1}-{time}.txt", 'w+') as file:
-        file.write(f"The following groups were created on {date2} at {time}.\n")
-        for i in range(1,nGroups+1):
-            file.write(f"\n Group {i}: {groupsDictionary[i]}\n")
-
-
-elif outputFlag==2:
-    # prints resulting groups to another unique file for javascript experiment:
-    with open(f"Results-{date1}-{time}_js.txt", 'w+') as file:
-        for i in range(1,nGroups+1):
-            file.write(f"\n---------Group{i}---------\n")
-            for tuple in groupsDictionary[i]:
-                idx = groupsDictionary[i].index(tuple)
-                file.write(f"var set{idx+1} = {list(tuple)};\n")
-
-
-elif outputFlag==3:
-    # prints resulting groups to another unique file for javascript experiment:
-    # with is like your try .. finally block in this case
-    with open('experiment.html', 'r') as file:
-        # read a list of lines into data
-        data = file.readlines()
-
-    for i in range(1,nGroups+1):
-        with open(f"experiment_{i}.html", 'w+') as file:
-            for tuple in groupsDictionary[i]:
-                idx = groupsDictionary[i].index(tuple)
-                # now change the 2nd line, note that you have to add a newline
-                data[12+idx] = f"    var Set{idx+1} = {list(tuple)};\n"
-                # and write everything back
-                file.writelines( data )
-
-else:
-    print(f"\nWrong choice friend. Please restart the experiment and try again. The results from the current run will be lost (unless you copy paste them from the console).\n")
