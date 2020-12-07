@@ -14,6 +14,7 @@ n = 18 # total number of robots
 k = 3  # number of robots per tuple
 groupSize = 24 # number of tuples per group
 nGroups = 34 # number of groups desired
+margin = 18
 
 # creates list of robots:
 robots = list(range(1,n+1))
@@ -26,8 +27,7 @@ print(f"\nWith {n} robots, there are {totalCombis} posible combinations of {k}-t
 
 # initializes dictionary where groups will be stored:
 groupsDictionary = {}
-
-# generates groups using the functions available in the file 'robotTuples.py'
+# generates groups using the functions available in the file 'robotTuples.py':
 iter=1
 countr=0
 while iter<nGroups:
@@ -45,33 +45,32 @@ while iter<nGroups:
     # Counts the number of times each tuple appears in the total list:
     count = Counter(tupleList)
     countr = len(count)
-    print(f"\nWe have found {countr} tuples from the {totalCombis} possible ones. So far we have created {iter+1} groups.\n")
-    if countr >= old_countr+20:
+    print(f"\nSo far we have created {iter} groups. We found {countr} tuples from the {totalCombis} possible ones.\n")
+    if countr >= old_countr+margin:
         iter=iter+1
     else:
         groupsDictionary.pop(iter)
         countr = old_countr
 
 
-## Saving output of experiment
 
+## Saving output of experiment
 # gets the current date and time to generate a unique filename for storing results:
 now = datetime.now()
 date1 = now.strftime("%Y:%m:%d")
 date2 = now.strftime("%Y/%m/%d")
 time = now.strftime("%H:%M:%S")
 
-
 # prints resulting groups to unique file with human readable format:
-with open(f"Results-{date1}-{time}.txt", 'w+') as file:
+with open(f"Results.txt", 'w+') as file:
     file.write(f"The following groups were created on {date2} at {time}.\n")
-    for i in range(1,nGroups+1):
+    for i in range(1,nGroups):
         file.write(f"\n Group {i}: {groupsDictionary[i]}\n")
 
 
 # prints resulting groups to another unique file for javascript experiment:
-with open(f"Results-{date1}-{time}_js.txt", 'w+') as file:
-    for i in range(1,nGroups+1):
+with open(f"Results_js.txt", 'w+') as file:
+    for i in range(1,nGroups):
         file.write(f"\n---------Group{i}---------\n")
         for tuple in groupsDictionary[i]:
             idx = groupsDictionary[i].index(tuple)
