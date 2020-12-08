@@ -14,7 +14,7 @@ n = 18 # total number of robots
 k = 3  # number of robots per tuple
 groupSize = 24 # number of tuples per group
 nGroups = 34 # number of groups desired
-margin = 18
+margin = 17
 
 # creates list of robots:
 robots = list(range(1,n+1))
@@ -30,7 +30,7 @@ groupsDictionary = {}
 # generates groups using the functions available in the file 'robotTuples.py':
 iter=1
 countr=0
-while iter<nGroups:
+while iter<nGroups+1:
     # creates all possible tuples defined by the parameters from above:
     totalTuples=rT.possibleTuples(robots,k)
     # generates a group which fulfills the constraints:
