@@ -80,18 +80,18 @@ elif outputFlag==2:
 elif outputFlag==3:
     # prints resulting groups to another unique file for javascript experiment:
     # with is like your try .. finally block in this case
-    with open('experiment.html', 'r') as file:
-        # read a list of lines into data
-        data = file.readlines()
 
     for i in range(1,nGroups+1):
+        with open('experiment.html', 'r') as file:
+            # read a list of lines into data
+            data = file.readlines()
+
         with open(f"experiment_{i}.html", 'w+') as file:
             for tuple in groupsDictionary[i]:
                 idx = groupsDictionary[i].index(tuple)
-                # now change the 2nd line, note that you have to add a newline
-                data[12+idx] = f"    var Set{idx+1} = {list(tuple)};\n"
-                # and write everything back
-                file.writelines( data )
+                data[12+idx] = f"    var set{idx+1} = {list(tuple)};\n"
+
+            file.writelines(data)
 
 else:
     print(f"\nWrong choice friend. Please restart the experiment and try again. The results from the current run will be lost (unless you copy paste them from the console).\n")
