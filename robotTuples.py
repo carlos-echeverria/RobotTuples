@@ -56,7 +56,7 @@ def generateGroup(totalTuples, groupSize):
         robotCounter = Counter(groupList)
 
         if (len(group)==groupSize):
-            print(f"\nThe following group was generated fulfilling the desired constraints:\n {sorted(group)}.") # sorted?
+            print(f"\nThe following group was generated fulfilling the desired constraints:\n {group}.") # sorted?
             # convergenceFlag=1
             return group
 
