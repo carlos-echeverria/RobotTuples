@@ -14,7 +14,7 @@ n = 18 # total number of robots
 k = 3  # number of robots per tuple
 groupSize = 24 # number of tuples per group
 nGroups = 34 # number of groups desired
-margin = 17
+margin = 16 # parameter that defines the number of "new" tuples needed to accept group
 
 # creates list of robots:
 robots = list(range(1,n+1))
@@ -28,9 +28,9 @@ print(f"\nWith {n} robots, there are {totalCombis} posible combinations of {k}-t
 # initializes dictionary where groups will be stored:
 groupsDictionary = {}
 # generates groups using the functions available in the file 'robotTuples.py':
-iter=1
+iter=0
 countr=0
-while iter<nGroups+1:
+while iter<nGroups:
     # creates all possible tuples defined by the parameters from above:
     totalTuples=rT.possibleTuples(robots,k)
     # generates a group which fulfills the constraints:
@@ -41,16 +41,22 @@ while iter<nGroups+1:
     total = groupsDictionary.values()
     tupleList = [tuple for group in total for tuple in group]
     # print(f"\nThe total list of tuples is: {tupleList}. It has {len(tupleList)} elements.")
-    old_countr=countr
+    oldCountr=countr
     # Counts the number of times each tuple appears in the total list:
     count = Counter(tupleList)
     countr = len(count)
-    print(f"\nSo far we have created {iter} groups. We found {countr} tuples from the {totalCombis} possible ones.\n")
-    if countr >= old_countr+margin:
+    print(f"\nSo far we have created {iter+1} groups. We found {countr} tuples from the {totalCombis} possible ones.\n")
+    if iter<13:
+        margin=24
+    else:
+        margin=16
+
+    if countr >= oldCountr+margin or countr>634:
         iter=iter+1
+        # print(groupsDictionary)
     else:
         groupsDictionary.pop(iter)
-        countr = old_countr
+        countr = oldCountr
 
 
 
@@ -63,54 +69,70 @@ time = now.strftime("%H:%M:%S")
 
 # prints resulting groups to unique file with human readable format:
 with open(f"Results.txt", 'w+') as file:
-    file.write(f"The following groups were created on {date2} at {time}.\n")
-    for i in range(1,nGroups):
-        file.write(f"\n Group {i}: {groupsDictionary[i]}\n")
+    file.write(f"The following groups were created on {date2} at {time}.\nThere are a total of {countr} from the {totalCombis} possible ones.\n")
+    for i in range(0,nGroups):
+        file.write(f"\n Group {i+1}: {groupsDictionary[i]}\n")
 
 
 # prints resulting groups to another unique file for javascript experiment:
 with open(f"Results_js.txt", 'w+') as file:
-    for i in range(1,nGroups):
-        file.write(f"\n---------Group{i}---------\n")
+    for i in range(0,nGroups):
+        file.write(f"\n---------Group{i+1}---------\n")
         for tuple in groupsDictionary[i]:
             idx = groupsDictionary[i].index(tuple)
             file.write(f"var set{idx+1} = {list(tuple)};\n")
 
+# prints resulting groups to another unique file for javascript experiment:
+# with is like your try .. finally block in this case
 
-# Saving output of experiment
+for i in range(nGroups):
+    with open('experiment.html', 'r') as file:
+        # read a list of lines into data
+        data = file.readlines()
+
+    with open(f"experiment_{i+1}.html", 'w+') as file:
+        for tuple in groupsDictionary[i]:
+            idx = groupsDictionary[i].index(tuple)
+            data[12+idx] = f"    var set{idx+1} = {list(tuple)};\n"
+
+        file.writelines(data)
+
+# Huh?
 print(f"\nDid this work?.\n")
 
-# 0         1
-# 24        2
-# 48        3
-# 72        4
-# 96        5
-# 120       6
-# 144       7
-# 168       8
-# 192       9
-# 216       10
-# 240       11
-# 264       12
-# 288       13
-# 312       14
-# 336       15
-# 360       16
-# 384       17
-# 408       18
-# 432       19
-# 456       20
-# 480       21
-# 504       22
-# 528       23
-# 552       24
-# 576       25
-# 600       26
-# 624       27
-# 648       28
-# 672       29
-# 696       30
-# 720       31
-# 744       32
-# 768       33
-# 792       34
+# 24        1
+# 48        2
+# 72        3
+# 96        4
+# 120       5
+# 144       6
+# 168       7
+# 192       8
+# 216       9
+# 240       10
+# 264       11
+# 288       12
+# 312       13
+# 336       14
+# 360       15
+# 384       16
+# 408       17
+# 432       18
+# 456       19
+# 480       20
+# 504       21
+# 528       22
+# 552       23
+# 576       24
+# 600       25
+# 624       26
+# 648       27
+# 672       28
+# 696       29
+# 720       30
+# 744       31
+# 768       32
+# 792       33
+# 814       34
+
+# 24*15+(19*17)=683
