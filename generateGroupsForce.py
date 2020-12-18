@@ -30,6 +30,7 @@ groupsDictionary = {}
 # generates groups using the functions available in the file 'robotTuples.py':
 iter=0
 countr=0
+trial=0
 while iter<nGroups:
     # creates all possible tuples defined by the parameters from above:
     totalTuples=rT.possibleTuples(robots,k)
@@ -37,6 +38,7 @@ while iter<nGroups:
     currentGroup=rT.generateGroupInSilence(totalTuples, groupSize)
     # add the created group to a dictionary:
     groupsDictionary.update({iter:currentGroup})
+    trial=trial+1
     # extracts every robot tuple from dictionary then makes a list:
     total = groupsDictionary.values()
     tupleList = [tuple for group in total for tuple in group]
@@ -45,13 +47,15 @@ while iter<nGroups:
     # Counts the number of times each tuple appears in the total list:
     count = Counter(tupleList)
     countr = len(count)
-    print(f"\nSo far we have created {iter+1} groups. We found {countr} tuples from the {totalCombis} possible ones.\n")
-    if iter<21:
+    if iter<18:
         margin=24
     else:
-        margin=16
+        margin=20
 
+
+    print(f"\nTrial {trial}: Group {iter+1}/{34} would add {countr-oldCountr} new tuples (we want {margin}). Total unique tuples: {countr}.\n")
     if countr >= oldCountr+margin:
+        print(f"\nWe have created {iter+1} groups. We used {countr} tuples from the {totalCombis} possible ones.\n")
         iter=iter+1
         # print(groupsDictionary)
     else:
