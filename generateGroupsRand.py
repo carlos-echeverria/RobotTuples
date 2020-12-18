@@ -82,14 +82,14 @@ elif outputFlag==3:
     # with is like your try .. finally block in this case
 
     for i in range(1,nGroups+1):
-        with open('experiment.html', 'r') as file:
+        with open('experiment_take3.html', 'r') as file:
             # read a list of lines into data
             data = file.readlines()
 
         with open(f"experiment_{i}.html", 'w+') as file:
             for tuple in groupsDictionary[i]:
                 idx = groupsDictionary[i].index(tuple)
-                data[12+idx] = f"    var set{idx+1} = {list(tuple)};\n"
+                data[25+idx] = f"    var set{idx+1} = {list(tuple)};\n"
 
             file.writelines(data)
 

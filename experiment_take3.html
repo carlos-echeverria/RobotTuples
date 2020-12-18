@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<head>
+
+<title>Experiment Robotermerkmale</title>
+<script src="jspsych-6.1.0/experiment_take3.js"></script>
+
+<script src="/assets/javascripts/jatos.js"></script>
+<script src="jatos.js"></script>
+<script src="jspsych-6.1.0/jspsych.js"></script>
+<script src="jspsych-6.1.0/plugins/jspsych-fullscreen.js"></script>
+<script src="jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>
+<script src="jspsych-6.1.0/plugins/jspsych-maxdiff.js"></script>
+<script src="jspsych-6.1.0/plugins/jspsych-survey-likert.js"></script>
+<script src="jspsych-6.1.0/plugins/jspsych-survey-text.js"></script>
+<link rel="stylesheet" href="jspsych-6.1.0/css/jspsych.css"></link>
+</head>
+
+<body></body>
+
+<script>
+
+var maxdiff_trials = [];
+
+//Definieren der einzelnen Sets
+    var set1  = [3,5,6];
+    var set2  = [7,9,12];
+    var set3  = [14,17,2];
+    var set4  = [1,8,18];
+    var set5  = [4,9,13];
+    var set6  = [10,11,16];
+    var set7  = [5,15,4];
+    var set8  = [3,5,6];
+    var set9  = [7,9,12];
+    var set10  = [14,17,2];
+    var set11  = [1,8,18];
+    var set12  = [4,9,13];
+    var set13  = [10,11,16];
+    var set14  = [15,17,6];
+    var set15  = [3,5,6];
+    var set16  = [7,9,12];
+    var set17  = [14,17,2];
+    var set18  = [1,8,18];
+    var set19  = [4,9,13];
+    var set20  = [10,11,16];
+    var set21  = [5,1,14];
+    var set22  = [3,5,6];
+    var set23  = [7,9,12];
+    var set24  = [14,17,2];
+
+var imageRating = [`img/TechBig.png`];
+
+var scale = ["Definitiv nicht assoziiert", " "," "," "," "," "," "," "," ", "Definitiv assoziiert"];
+
+
+var fullscreen_trial = {
+  type: 'fullscreen',
+  fullscreen_mode: true
+}
+
+maxdiff_trials.push(fullscreen_trial);
+
+//Sets zusammenfügen
+    var trial = [set1, set2, set3, set4, set5, set6, set7, set8, set9, set10, set11, set12, set13, set14, set15, set16, set17, set18 ,set19, set20, set21, set22, set23, set24];
+
+//Sets in Variable "trial" in random Reihenfolge bringen
+    var rand_trial = jsPsych.randomization.shuffle(trial);
+
+//Durchlauf für alle Sets
+    for (var i = 0; i < 2; i++) {
+
+      //aktuelles Set an Variable Stimulus übergeben
+      var stimulus = rand_trial[i];
+
+      var imageNames = [`img/${stimulus[0]}.png`,`img/${stimulus[1]}.png`,`img/${stimulus[2]}.png`];
+
+      var maxdiff_trial = {
+        	type: 'maxdiff',
+        	alternatives: ['Roboterkategorie ' + stimulus[0], 'Roboterkategorie ' + stimulus[1], 'Roboterkategorie '+ stimulus[2]],
+        	labels: ['Am besten', 'Am schlechtesten'],
+           	preamble: `W&auml;hlen Sie bitte spontan aus, welche Roboterkategorie Ihrer Meinung nach am <strong>besten</strong> und welche am <strong>schlechtesten</strong>` + `<br>`+ `f&uuml;r sowohl <strong>soziale</strong> als auch <strong>funktionale</strong> Aufgaben im Pflegekontext ist. <br>`
+                      + `<br>`+  `<img src=${imageNames[0]} style="width:288px; height:400px; alt=1" >` +` `+ `<img src=${imageNames[1]} style="width:288px; height:400px; alt=2" >` + ` ` + `<img src=${imageNames[2]} style="width:288px; height:400px; alt=3" >`+ `<br>`,
+    	    	button_label: 'Weiter',
+          	required: true,
+    		}
+
+	maxdiff_trials.push(maxdiff_trial);
+};
+
+ppn_form = {
+	type: 'survey-text',
+	questions: [{prompt: "Bitte geben Sie Ihre Prolific-ID an:", name: "ppn"}],
+	on_finish: function(data){
+		ppn = JSON.parse(data['responses'])['ppn'] // get ppn from trial data
+				}
+	}
+
+maxdiff_trials.push(ppn_form);
+
+var likert_trial_random_order_1 = {
+      type: 'survey-likert',
+      preamble: `Bitte bewerten Sie noch eine der eben gesehenen Roboterkategorien.` + `<br>`+  `Die Bewertung bezieht sich lediglich auf die äußere Erscheinung,` + `<br>`+  `die Kommunikationsart soll in der Bewertung nicht berücksichtigt werden. <br>`+ `<br>`+ `Wie nah sind die untenstehenden Wörter mit der Roboterkategorie assoziiert? <br>`
+                      + `<br>`+  `<img src=${imageRating} style="width:288px; height:250px; border:5px solid #999999; alt=1" >`,
+      questions: [
+        {prompt: "Fähig", labels: scale},
+        {prompt: "Kompetent", labels: scale},
+        {prompt: "Interaktiv", labels: scale},
+        {prompt: "Verlässlich", labels: scale},
+        {prompt: "Reagierend", labels: scale},
+        {prompt: "Klug", labels: scale}
+      ],
+      randomize_question_order: true,
+      scale_width: 500
+  };
+
+var likert_trial_random_order_2 = {
+      type: 'survey-likert',
+	    preamble: `Bitte bewerten Sie noch eine der eben gesehenen Roboterkategorien.` + `<br>`+  `Die Bewertung bezieht sich lediglich auf die äußere Erscheinung,` + `<br>`+  `die Kommunikationsart soll in der Bewertung nicht berücksichtigt werden. <br>`+ `<br>`+ `Wie nah sind die untenstehenden Wörter mit der Roboterkategorie assoziiert? <br>`
+                      + `<br>`+  `<img src=${imageRating} style="width:288px; height:250px; border:5px solid #999999; alt=1" >`,
+      questions: [
+        {prompt: "Merkwürdig", labels: scale},
+        {prompt: "Aggressiv", labels: scale},
+        {prompt: "Gefährlich", labels: scale},
+        {prompt: "Gruselig", labels: scale},
+        {prompt: "Unbehaglich", labels: scale},
+        {prompt: "Scheußlich", labels: scale}
+      ],
+      randomize_question_order: true,
+      scale_width: 500
+  };
+
+var likert_trial_random_order_3 = {
+      type: 'survey-likert',
+      preamble: `Bitte bewerten Sie noch eine der eben gesehenen Roboterkategorien.` + `<br>`+  `Die Bewertung bezieht sich lediglich auf die äußere Erscheinung,` + `<br>`+  `die Kommunikationsart soll in der Bewertung nicht berücksichtigt werden. <br>`+ `<br>`+ `Wie nah sind die untenstehenden Wörter mit der Roboterkategorie assoziiert? <br>`
+                      + `<br>`+  `<img src=${imageRating} style="width:288px; height:250px; border:5px solid #999999; alt=1" >`,
+      questions: [
+        {prompt: "Fühlend", labels: scale},
+        {prompt: "Mitfühlend", labels: scale},
+        {prompt: "Sozial", labels: scale},
+        {prompt: "Emotional", labels: scale},
+        {prompt: "Fröhlich", labels: scale},
+        {prompt: "Organisch", labels: scale}
+      ],
+      randomize_question_order: true,
+      scale_width: 500
+  };
+
+    var Rosas = [likert_trial_random_order_1, likert_trial_random_order_2, likert_trial_random_order_3];
+    var rand_Rosas = jsPsych.randomization.shuffle(Rosas);
+
+for (var j = 0; j < 3; j++) {
+maxdiff_trials.push(rand_Rosas[j]);
+}
+
+var resultData = {"Set-Reihenfolge": rand_trial, "Rosas-Reihenfolge": rand_Rosas};
+
+var Ende = {
+      type: 'html-button-response',
+      prompt: "<p>Vielen Dank für Ihre Teilnahme! Sie werden nun zurück zu Prolific geleitet. Bestätigen Sie dafür, dass Sie die Seite verlassen möchten.</p>",
+      choices: ['Weiter zum Beenden']
+    };
+
+maxdiff_trials.push(Ende);
+
+jatos.onLoad(function() {
+    jsPsych.init({
+      timeline: maxdiff_trials,
+      on_finish: function() { //jsPsych.data.displayData();
+       var resultJson = jsPsych.data.get().json();
+       jatos.submitResultData(resultJson);
+       jatos.appendResultData(resultData);
+       jatos.endStudyAndRedirect("https://app.prolific.co/submissions/complete?cc=2977D7FA");
+	}
+    });
+});
+
+</script>
