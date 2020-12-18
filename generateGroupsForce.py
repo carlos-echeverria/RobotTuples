@@ -6,7 +6,7 @@
 
 import robotTuples as rT
 import matplotlib.pyplot as plt
-from collections import Counter
+from collections import Counter, OrderedDict
 from random import seed
 from datetime import datetime
 
@@ -14,7 +14,7 @@ n = 18 # total number of robots
 k = 3  # number of robots per tuple
 groupSize = 24 # number of tuples per group
 nGroups = 34 # number of groups desired
-margin = 16 # parameter that defines the number of "new" tuples needed to accept group
+margin = 24 # parameter that defines the number of "new" tuples needed to accept group
 
 # creates list of robots:
 robots = list(range(1,n+1))
@@ -46,18 +46,35 @@ while iter<nGroups:
     count = Counter(tupleList)
     countr = len(count)
     print(f"\nSo far we have created {iter+1} groups. We found {countr} tuples from the {totalCombis} possible ones.\n")
-    if iter<13:
+    if iter<21:
         margin=24
     else:
         margin=16
 
-    if countr >= oldCountr+margin or countr>634:
+    if countr >= oldCountr+margin:
         iter=iter+1
         # print(groupsDictionary)
     else:
         groupsDictionary.pop(iter)
         countr = oldCountr
 
+
+
+
+totalTuples = rT.possibleTuples(robots,k)
+myList=list(OrderedDict.fromkeys(tupleList))
+orderedCount = OrderedDict(count.most_common())
+diffList=list(set(totalTuples) - set(tupleList))
+# print(diffList)
+# print(f"\nThe number of tuples used in the solution set is: {len(myList)} out of the {len(totalTuples)} possible ones. They are:\n")
+# print(f"tuple\t\ttimes seen\n-----\t\t----------")
+# for key, value in orderedCount.items():
+#         print(f"{key}\t:{value}")
+# print(f"\nThe number of tuples not used in the group is: {len(diffList)}. They are:\n")
+# print(f"tuple\t\ttimes seen\n-----\t\t----------")
+# for tuple in sorted(diffList):
+#         print(f"{tuple}\t:{0}")
+# diffCount = Counter(diffList)
 
 
 ## Saving output of experiment
@@ -68,11 +85,26 @@ date2 = now.strftime("%Y/%m/%d")
 time = now.strftime("%H:%M:%S")
 
 # prints resulting groups to unique file with human readable format:
+with open(f"TupleResults.txt", 'w+') as file:
+    file.write(f"\nThe total number of tuples is: {len(totalTuples)}.\n")
+    file.write(f"\nThe number of tuples used in the solution set is: {len(myList)}. They are:\n")
+    file.write(f"\ntuple\t\ttimes used\n-----\t\t----------\n")
+    for key, value in orderedCount.items():
+            file.write(f"{key}\t:{value}\n")
+    file.write(f"\nThe number of tuples not used in the solution set is: {len(diffList)}. They are:\n")
+    file.write(f"\ntuple\t\ttimes used\n-----\t\t----------\n")
+    for tuple in sorted(diffList):
+            file.write(f"{tuple} \t:{0}\n")
+
+# prints resulting groups to unique file with human readable format:
 with open(f"Results.txt", 'w+') as file:
-    file.write(f"The following groups were created on {date2} at {time}.\nThere are a total of {countr} from the {totalCombis} possible ones.\n")
+    file.write(f"The following solution set of groups was created on {date2} at {time}.\n\nThere solution set uses a total of {countr} unique tuples from the {totalCombis} possible ones.\n")
+    # file.write(f"We have:\n {count}\n")
     for i in range(0,nGroups):
         file.write(f"\n Group {i+1}: {groupsDictionary[i]}\n")
 
+    file.write(f"\nThere are a total of {len(diffList)} unused tuples from the {totalCombis} possible ones.\n")
+    file.write(f"\n Unused Group: {diffList}\n")
 
 # prints resulting groups to another unique file for javascript experiment:
 with open(f"Results_js.txt", 'w+') as file:
@@ -96,6 +128,11 @@ for i in range(nGroups):
             data[12+idx] = f"    var set{idx+1} = {list(tuple)};\n"
 
         file.writelines(data)
+
+
+
+
+
 
 # Huh?
 print(f"\nDid this work?.\n")
