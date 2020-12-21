@@ -47,23 +47,27 @@ while iter<nGroups:
     # Counts the number of times each tuple appears in the total list:
     count = Counter(tupleList)
     countr = len(count)
-    if iter<18:
+    if iter<17:
         margin=24
     else:
-        margin=20
+        margin=17
 
     if trial%100==0:
         print(f"\nTrial {trial}: Group {iter+1}/{34} would add {countr-oldCountr} new tuples (we want {margin}). Total unique tuples: {countr}.\n")
 
     if countr >= oldCountr+margin:
-        print(f"\nWe have created {iter+1} groups. We used {countr} tuples from the {totalCombis} possible ones.\n")
+        print(f"\nTrial {trial}: We have created {iter+1} groups. We used {countr} tuples from the {totalCombis} possible ones.\n")
         iter=iter+1
+        totalTuplesALL = rT.possibleTuples(robots,k)
+        diffSet = set(totalTuplesALL) - set(tupleList)
+        diffList=list(diffSet)
+        print(f"\nCurrent solution set:\n\n {groupsDictionary}.")
+        print(f"\nList of unused tuples:\n\n {diffList}.\n")
+
         # print(groupsDictionary)
     else:
         groupsDictionary.pop(iter)
         countr = oldCountr
-
-
 
 
 totalTuples = rT.possibleTuples(robots,k)
