@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<head>
+  <title> Experiment Take 2 (fixed)</title>
+  <script src="jspsych-6.1.0/jspsych.js"></script>
+  <script src="jspsych-6.1.0//plugins/jspsych-maxdiff.js"></script>
+  <link rel="stylesheet" href="jspsych-6.1.0/css/jspsych.css"></link>
+</head>
+
+<body></body>
+
+<script>
+
+    var set1 = [8, 11, 16];
+    var set2 = [6, 8, 11];
+    var set3 = [7, 15, 17];
+    var set4 = [13, 14, 15];
+    var set5 = [5, 9, 12];
+    var set6 = [5, 8, 11];
+    var set7 = [2, 5, 8];
+    var set8 = [4, 9, 11];
+    var set9 = [6, 10, 12];
+    var set10 = [3, 15, 18];
+    var set11 = [5, 7, 16];
+    var set12 = [10, 13, 14];
+    var set13 = [13, 15, 18];
+    var set14 = [1, 4, 18];
+    var set15 = [6, 10, 17];
+    var set16 = [7, 13, 14];
+    var set17 = [1, 10, 18];
+    var set18 = [3, 6, 14];
+    var set19 = [3, 16, 17];
+    var set20 = [1, 2, 17];
+    var set21 = [2, 7, 12];
+    var set22 = [2, 9, 12];
+    var set23 = [3, 4, 9];
+    var set24 = [1, 4, 16];
+
+    var trial = [set1, set2, set3, set4, set5, set6, set7, set8, set9, set10, set11, set12, set13, set14, set15, set16, set17, set18, set19, set20, set21, set22, set23, set24];
+
+    var maxdiff_trials = [];
+
+    for (var i = 0; i < 24; i++) {
+
+      var stimulus = trial[i];
+
+      var imageNames = [`img/${stimulus[0]}.png`,`img/${stimulus[1]}.png`,`img/${stimulus[2]}.png`]
+
+      var maxdiff_trial = {
+        	type: 'maxdiff',
+        	alternatives: ['Roboterkategorie 1', 'Roboterkategorie 2', 'Roboterkategorie 3'],
+        	labels: ['Am besten geeignet<br><br>', 'Am schlechtesten<br>geeignet'],
+           preamble: `W&auml;hlen Sie bitte spontan aus, welche Roboterkategorie Ihrer Meinung nach am <strong>besten</strong> und welche am <strong>schlechtesten</strong> f&uuml;r sowohl <strong>soziale</strong> als auch <strong>funktionale</strong> Aufgaben im Pflegekontext geeignet ist. <br>`
+                      + `<br>`+  `<img src=${imageNames[0]} style="width:288px; height:400px; border:5px solid #999999; alt=1" >` + ` ` + `<img src=${imageNames[1]} style="width:288px; height:400px; border:5px solid #999999; alt=2" >` + ` ` + `<img src=${imageNames[2]} style="width:288px; height:400px; border:5px solid #999999; alt=3" >`
+                      + `<br>`+ `<img src=img/cap1.png style=width:288px;height:34.25px;>` +  `<img src=img/cap2.png style=width:288px;height:34.25px;>`+  `<img src=img/cap3.png style=width:288px;height:34.25px;>`,
+    	    button_label: 'Weiter',
+          required: true,
+    	}
+
+	      maxdiff_trials.push(maxdiff_trial);
+
+    }
+
+    jsPsych.init({
+      timeline: maxdiff_trials,
+      on_finish: function() { jsPsych.data.displayData(); }
+    });
+
+</script>
